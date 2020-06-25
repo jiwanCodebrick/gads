@@ -58,6 +58,7 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 	typeName := xml.Name{Space: "http://www.w3.org/2001/XMLSchema-instance", Local: "type"}
 	var adGroupId int64
 	var status, approvalStatus string
+	var policySummary *AdGroupAdPolicySummary
 	var disapprovalReasons []string
 	var trademarkDisapproved bool
 	var labels []Label
@@ -84,7 +85,6 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 				if err != nil {
 					return err
 				}
-				fmt.Println(typeName)
 				switch typeName {
 				case "TextAd":
 					a := TextAd{AdGroupId: adGroupId}
@@ -120,8 +120,32 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 					if err != nil {
 						return err
 					}
+				case "ExpandedDynamicSearchAd":
+					a := ExpandedDynamicSearchAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
+				case "ResponsiveDisplayAd":
+					a := ResponsiveDisplayAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
+				case "MultiAssetResponsiveDisplayAd":
+					a := MultiAssetResponsiveDisplayAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
 				case "ProductAd":
 					a := ProductAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
+				case "GoalOptimizedShoppingAd":
+					a := GoalOptimizedShoppingAd{AdGroupId: adGroupId}
 					err := dec.DecodeElement(&a, &start)
 					if err != nil {
 						return err
@@ -136,6 +160,11 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 				}
 			case "status":
 				err := dec.DecodeElement(&status, &start)
+				if err != nil {
+					return err
+				}
+			case "policySummary":
+				err := dec.DecodeElement(&policySummary, &start)
 				if err != nil {
 					return err
 				}
@@ -177,32 +206,54 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 			default:
 				return fmt.Errorf("unknown AdGroupAd field -> %#v", tag)
 			}
-
 		}
 	}
 	switch a := ad.(type) {
 	case TextAd:
 		a.Status = status
+		a.PolicySummary = policySummary
 		*aga = append(*aga, a)
 	case ExpandedTextAd:
 		a.ExperimentData = experimentData
 		a.Status = status
+		a.PolicySummary = policySummary
 		a.Labels = labels
 		a.BaseCampaignId = baseCampaignId
 		a.BaseAdGroupId = baseAdGroupId
 		*aga = append(*aga, a)
 	case ImageAd:
 		a.Status = status
+		a.PolicySummary = policySummary
 		*aga = append(*aga, a)
 	case TemplateAd:
 		a.Status = status
+		a.PolicySummary = policySummary
 		*aga = append(*aga, a)
 	case DynamicSearchAd:
 		a.Status = status
+		a.PolicySummary = policySummary
+		*aga = append(*aga, a)
+	case ResponsiveDisplayAd:
+		a.Status = status
+		a.PolicySummary = policySummary
+		*aga = append(*aga, a)
+	case MultiAssetResponsiveDisplayAd:
+		a.Status = status
+		a.PolicySummary = policySummary
+		*aga = append(*aga, a)
+	case ExpandedDynamicSearchAd:
+		a.Status = status
+		a.PolicySummary = policySummary
 		*aga = append(*aga, a)
 	case ProductAd:
 		a.Status = status
+		a.PolicySummary = policySummary
+		*aga = append(*aga, a)
+	case GoalOptimizedShoppingAd:
+		a.Status = status
+		a.PolicySummary = policySummary
 		*aga = append(*aga, a)
 	}
+
 	return nil
 }
