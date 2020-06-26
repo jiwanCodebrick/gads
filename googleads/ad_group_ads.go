@@ -148,6 +148,18 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 					if err != nil {
 						return err
 					}
+				case "CallOnlyAd":
+					a := CallOnlyAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
+				case "ResponsiveSearchAd":
+					a := ResponsiveSearchAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
 				default:
 					return fmt.Errorf("unknown AdGroupCriterion -> %#v", start)
 				}
@@ -260,6 +272,22 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	case GoalOptimizedShoppingAd:
+		a.Status = status
+		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
+		*aga = append(*aga, a)
+	case CallOnlyAd:
+		a.Status = status
+		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
+		*aga = append(*aga, a)
+	case ResponsiveSearchAd:
 		a.Status = status
 		a.PolicySummary = policySummary
 		a.Labels = labels

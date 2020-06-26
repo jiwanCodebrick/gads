@@ -2,7 +2,6 @@ package v201809
 
 import (
 	"encoding/xml"
-	"fmt"
 )
 
 type AdGroupAdService struct {
@@ -17,6 +16,32 @@ type AppUrl struct {
 type AdStrengthInfo struct {
 	adStrength  string   `xml:"adStrength"`
 	actionItems []string `xml:"actionItems"`
+}
+
+type CallOnlyAd struct {
+	AdGroupId                  int64                   `xml:"-"`
+	Id                         int64                   `xml:"id,omitempty"`
+	DisplayUrl                 string                  `xml:"displayUrl"`
+	FinalUrlSuffix             string                  `xml:"finalUrlSuffix"`
+	DevicePreference           int64                   `xml:"devicePreference,omitempty"`
+	Automated                  bool                    `xml:"automated,omitempty"`
+	SystemManagedEntitySource  string                  `xml:"systemManagedEntitySource,omitempty"`
+	Type                       string                  `xml:"type,omitempty"`
+	CountryCode                string                  `xml:"countryCode"`
+	PhoneNumber                string                  `xml:"phoneNumber"`
+	BusinessName               string                  `xml:"businessName"`
+	Description1               string                  `xml:"description1"`
+	Description2               string                  `xml:"description2"`
+	CallTracked                bool                    `xml:"callTracked"`
+	DisableCallConversion      bool                    `xml:"disableCallConversion"`
+	ConversionTypeId           int64                   `xml:"conversionTypeId"`
+	PhoneNumberVerificationUrl string                  `xml:"phoneNumberVerificationUrl"`
+	Status                     string                  `xml:"-"`
+	Labels                     []Label                 `xml:"-"`
+	PolicySummary              *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo             *AdStrengthInfo         `xml:"-"`
+	BaseCampaignId             int64                   `xml:"-"`
+	BaseAdGroupId              int64                   `xml:"-"`
 }
 
 type TextAd struct {
@@ -37,6 +62,59 @@ type TextAd struct {
 	Headline                  string                  `xml:"headline"`
 	Description1              string                  `xml:"description1"`
 	Description2              string                  `xml:"description2"`
+	Status                    string                  `xml:"-"`
+	Labels                    []Label                 `xml:"-"`
+	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo            *AdStrengthInfo         `xml:"-"`
+	BaseCampaignId            int64                   `xml:"-"`
+	BaseAdGroupId             int64                   `xml:"-"`
+}
+
+type PolicyTopicEvidence struct {
+	PolicyTopicEvidenceType                        string   `xml:"description2"`
+	EvidenceTextList                               []string `xml:"evidenceTextList"`
+	PolicyTopicEvidenceDestinationMismatchUrlTypes []string `xml:"policyTopicEvidenceDestinationMismatchUrlTypes"`
+}
+
+type PolicyTopicEntry struct {
+	PolicyTopicEntryType     string              `xml:"policyTopicEntryType"`
+	PolicyTopicEvidences     PolicyTopicEvidence `xml:"policyTopicEvidences"`
+	PolicyTopicConstraints   interface{}         `xml:"policyTopicConstraints"` //todo
+	PolicyTopicId            string              `xml:"policyTopicId"`
+	PolicyTopicName          string              `xml:"policyTopicName"`
+	PolicyTopicHelpCenterUrl string              `xml:"policyTopicHelpCenterUrl"`
+}
+
+type AssetPolicySummaryInfo struct {
+	PolicyTopicEntries     []PolicyTopicEntry `xml:"policyTopicEntries"`
+	ReviewState            string             `xml:"reviewState"`
+	DenormalizedStatus     string             `xml:"denormalizedStatus"`
+	CombinedApprovalStatus string             `xml:"combinedApprovalStatus"`
+	PolicySummaryInfo      string             `xml:"PolicySummaryInfo"`
+}
+
+type AssetLink struct {
+	Asset                  interface{}            `xml:"asset"` //todo
+	PinnedField            string                 `xml:"pinnedField"`
+	AssetPolicySummaryInfo AssetPolicySummaryInfo `xml:"assetPolicySummaryInfo"`
+	AssetPerformanceLabel  string                 `xml:"assetPerformanceLabel"`
+}
+
+type ResponsiveSearchAd struct {
+	AdGroupId                 int64                   `xml:"-"`
+	Id                        int64                   `xml:"id,omitempty"`
+	FinalUrls                 []string                `xml:"finalUrls,omitempty"`
+	FinalUrlSuffix            string                  `xml:"finalUrlSuffix"`
+	FinalMobileUrls           []string                `xml:"finalMobileUrls,omitempty"`
+	TrackingUrlTemplate       string                  `xml:"trackingUrlTemplate,omitempty"`
+	UrlCustomParameters       *CustomParameters       `xml:"urlCustomParameters,omitempty"`
+	Automated                 bool                    `xml:"automated,omitempty"`
+	SystemManagedEntitySource string                  `xml:"systemManagedEntitySource,omitempty"`
+	Type                      string                  `xml:"type,omitempty"`
+	Headlines                 []AssetLink             `xml:"headlines"`
+	Descriptions              []AssetLink             `xml:"descriptions"`
+	Path1                     string                  `xml:"path1"`
+	Path2                     string                  `xml:"path2"`
 	Status                    string                  `xml:"-"`
 	Labels                    []Label                 `xml:"-"`
 	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
@@ -663,7 +741,6 @@ func (s *AdGroupAdService) Query(query string) (adGroupAds AdGroupAds, totalCoun
 		return adGroupAds, totalCount, err
 	}
 
-	fmt.Println(string(respBody))
 	getResp := struct {
 		Size       int64      `xml:"rval>totalNumEntries"`
 		AdGroupAds AdGroupAds `xml:"rval>entries"`
