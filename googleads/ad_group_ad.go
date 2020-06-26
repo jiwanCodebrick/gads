@@ -14,66 +14,85 @@ type AppUrl struct {
 	OsType string `xml:"osType"` // "OS_TYPE_IOS", "OS_TYPE_ANDROID", "UNKNOWN"
 }
 
+type AdStrengthInfo struct {
+	adStrength  string   `xml:"adStrength"`
+	actionItems []string `xml:"actionItems"`
+}
+
 type TextAd struct {
-	AdGroupId           int64                   `xml:"-"`
-	Id                  int64                   `xml:"id,omitempty"`
-	Url                 string                  `xml:"url"`
-	DisplayUrl          string                  `xml:"displayUrl"`
-	FinalUrls           []string                `xml:"finalUrls,omitempty"`
-	FinalMobileUrls     []string                `xml:"finalMobileUrls,omitempty"`
-	FinalAppUrls        []AppUrl                `xml:"finalAppUrls,omitempty"`
-	TrackingUrlTemplate string                  `xml:"trackingUrlTemplate,omitempty"`
-	UrlCustomParameters *CustomParameters       `xml:"urlCustomParameters,omitempty"`
-	Type                string                  `xml:"type,omitempty"`
-	DevicePreference    int64                   `xml:"devicePreference,omitempty"`
-	Headline            string                  `xml:"headline"`
-	Description1        string                  `xml:"description1"`
-	Description2        string                  `xml:"description2"`
-	Status              string                  `xml:"-"`
-	Labels              []Label                 `xml:"-"`
-	PolicySummary       *AdGroupAdPolicySummary `xml:"-"`
+	AdGroupId                 int64                   `xml:"-"`
+	Id                        int64                   `xml:"id,omitempty"`
+	Url                       string                  `xml:"url"`
+	DisplayUrl                string                  `xml:"displayUrl"`
+	FinalUrls                 []string                `xml:"finalUrls,omitempty"`
+	FinalUrlSuffix            string                  `xml:"finalUrlSuffix"`
+	FinalMobileUrls           []string                `xml:"finalMobileUrls,omitempty"`
+	FinalAppUrls              []AppUrl                `xml:"finalAppUrls,omitempty"`
+	TrackingUrlTemplate       string                  `xml:"trackingUrlTemplate,omitempty"`
+	UrlCustomParameters       *CustomParameters       `xml:"urlCustomParameters,omitempty"`
+	DevicePreference          int64                   `xml:"devicePreference,omitempty"`
+	Automated                 bool                    `xml:"automated,omitempty"`
+	SystemManagedEntitySource string                  `xml:"systemManagedEntitySource,omitempty"`
+	Type                      string                  `xml:"type,omitempty"`
+	Headline                  string                  `xml:"headline"`
+	Description1              string                  `xml:"description1"`
+	Description2              string                  `xml:"description2"`
+	Status                    string                  `xml:"-"`
+	Labels                    []Label                 `xml:"-"`
+	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo            *AdStrengthInfo         `xml:"-"`
+	BaseCampaignId            int64                   `xml:"-"`
+	BaseAdGroupId             int64                   `xml:"-"`
 }
 
 type ExpandedTextAd struct {
-	AdGroupId           int64                   `xml:"-"`
-	Id                  int64                   `xml:"id,omitempty"`
-	FinalUrls           []string                `xml:"finalUrls,omitempty"`
-	FinalMobileUrls     []string                `xml:"finalMobileUrls,omitempty"`
-	TrackingUrlTemplate string                  `xml:"trackingUrlTemplate,omitempty"`
-	UrlCustomParameters *CustomParameters       `xml:"urlCustomParameters,omitempty"`
-	Type                string                  `xml:"type,omitempty"`
-	HeadlinePart1       string                  `xml:"headlinePart1,omitempty"`
-	HeadlinePart2       string                  `xml:"headlinePart2,omitempty"`
-	Description         string                  `xml:"description,omitempty"`
-	Path1               string                  `xml:"path1,omitempty"`
-	Path2               string                  `xml:"path2,omitempty"`
-	ExperimentData      *AdGroupExperimentData  `xml:"-"`
-	Status              string                  `xml:"-"`
-	Labels              []Label                 `xml:"-"`
-	BaseCampaignId      *int64                  `xml:"-"`
-	BaseAdGroupId       *int64                  `xml:"-"`
-	PolicySummary       *AdGroupAdPolicySummary `xml:"-"`
+	AdGroupId                 int64                   `xml:"-"`
+	Id                        int64                   `xml:"id,omitempty"`
+	FinalUrls                 []string                `xml:"finalUrls,omitempty"`
+	FinalUrlSuffix            string                  `xml:"finalUrlSuffix"`
+	FinalMobileUrls           []string                `xml:"finalMobileUrls,omitempty"`
+	TrackingUrlTemplate       string                  `xml:"trackingUrlTemplate,omitempty"`
+	UrlCustomParameters       *CustomParameters       `xml:"urlCustomParameters,omitempty"`
+	Automated                 bool                    `xml:"automated,omitempty"`
+	SystemManagedEntitySource string                  `xml:"systemManagedEntitySource,omitempty"`
+	Type                      string                  `xml:"type,omitempty"`
+	HeadlinePart1             string                  `xml:"headlinePart1,omitempty"`
+	HeadlinePart2             string                  `xml:"headlinePart2,omitempty"`
+	HeadlinePart3             string                  `xml:"headlinePart3,omitempty"`
+	Description               string                  `xml:"description,omitempty"`
+	Description2              string                  `xml:"description2,omitempty"`
+	Path1                     string                  `xml:"path1,omitempty"`
+	Path2                     string                  `xml:"path2,omitempty"`
+	Status                    string                  `xml:"-"`
+	Labels                    []Label                 `xml:"-"`
+	BaseCampaignId            int64                   `xml:"-"`
+	BaseAdGroupId             int64                   `xml:"-"`
+	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo            *AdStrengthInfo         `xml:"-"`
 }
 
 type BatchExpandedTextAd struct {
 	AdGroupId           int64                   `xml:"-"`
 	Id                  int64                   `xml:"id,omitempty"`
 	FinalUrls           []string                `xml:"finalUrls,omitempty"`
+	FinalUrlSuffix      string                  `xml:"finalUrlSuffix"`
 	FinalMobileUrls     []string                `xml:"finalMobileUrls,omitempty"`
 	TrackingUrlTemplate string                  `xml:"trackingUrlTemplate,omitempty"`
 	UrlCustomParameters *CustomParameters       `xml:"urlCustomParameters,omitempty"`
 	Type                string                  `xml:"type,omitempty"`
 	HeadlinePart1       string                  `xml:"headlinePart1,omitempty"`
 	HeadlinePart2       string                  `xml:"headlinePart2,omitempty"`
+	HeadlinePart3       string                  `xml:"headlinePart3,omitempty"`
 	Description         string                  `xml:"description,omitempty"`
+	Description2        string                  `xml:"description2,omitempty"`
 	Path1               string                  `xml:"path1,omitempty"`
 	Path2               string                  `xml:"path2,omitempty"`
-	ExperimentData      *AdGroupExperimentData  `xml:"-"`
 	Status              string                  `xml:"-"`
 	Labels              []Label                 `xml:"-"`
-	BaseCampaignId      *int64                  `xml:"-"`
-	BaseAdGroupId       *int64                  `xml:"-"`
 	PolicySummary       *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo      *AdStrengthInfo         `xml:"-"`
+	BaseCampaignId      int64                   `xml:"-"`
+	BaseAdGroupId       int64                   `xml:"-"`
 }
 
 type BatchExpandedTextAdInner struct {
@@ -113,26 +132,42 @@ func (ad BatchExpandedTextAd) MarshalXML(e *xml.Encoder, start xml.StartElement)
 	return e.EncodeToken(xml.EndElement{Name: start.Name})
 }
 
+type DynamicSettings struct {
+	landscapeLogoImage Media  `xml:"landscapeLogoImage"`
+	pricePrefix        string `xml:"pricePrefix"`
+	promoText          string `xml:"promoText"`
+}
+
 type ResponsiveDisplayAd struct {
-	AdGroupId           int64                   `xml:"-"`
-	Id                  int64                   `xml:"id,omitempty"`
-	FinalUrls           []string                `xml:"finalUrls,omitempty"`
-	FinalMobileUrls     []string                `xml:"finalMobileUrls,omitempty"`
-	TrackingUrlTemplate string                  `xml:"trackingUrlTemplate,omitempty"`
-	UrlCustomParameters *CustomParameters       `xml:"urlCustomParameters,omitempty"`
-	Type                string                  `xml:"type,omitempty"`
-	MarketingImage      Media                   `xml:"marketingImage"`
-	LogoImage           Media                   `xml:"logoImage"`
-	ShortHeadline       string                  `xml:"shortHeadline"`
-	LongHeadline        string                  `xml:"longHeadline"`
-	Description         string                  `xml:"description"`
-	BusinessName        string                  `xml:"businessName"`
-	ExperimentData      AdGroupExperimentData   `xml:"-"`
-	Status              string                  `xml:"-"`
-	Labels              []Label                 `xml:"-"`
-	BaseCampaignId      int64                   `xml:"-"`
-	BaseAdGroupId       int64                   `xml:"-"`
-	PolicySummary       *AdGroupAdPolicySummary `xml:"-"`
+	AdGroupId                 int64                   `xml:"-"`
+	Id                        int64                   `xml:"id,omitempty"`
+	FinalUrls                 []string                `xml:"finalUrls,omitempty"`
+	FinalUrlSuffix            string                  `xml:"finalUrlSuffix"`
+	FinalMobileUrls           []string                `xml:"finalMobileUrls,omitempty"`
+	TrackingUrlTemplate       string                  `xml:"trackingUrlTemplate,omitempty"`
+	UrlCustomParameters       *CustomParameters       `xml:"urlCustomParameters,omitempty"`
+	Automated                 bool                    `xml:"automated,omitempty"`
+	SystemManagedEntitySource string                  `xml:"systemManagedEntitySource,omitempty"`
+	Type                      string                  `xml:"type,omitempty"`
+	MarketingImage            Media                   `xml:"marketingImage"`
+	LogoImage                 Media                   `xml:"logoImage"`
+	SquareMarketingImage      Media                   `xml:"squareMarketingImage"`
+	ShortHeadline             string                  `xml:"shortHeadline"`
+	LongHeadline              string                  `xml:"longHeadline"`
+	Description               string                  `xml:"description"`
+	BusinessName              string                  `xml:"businessName"`
+	MainColor                 string                  `xml:"mainColor"`
+	AccentColor               string                  `xml:"accentColor"`
+	AllowFlexibleColor        bool                    `xml:"allowFlexibleColor"`
+	CallToActionText          string                  `xml:"callToActionText"`
+	DynamicDisplayAdSettings  DynamicSettings         `xml:"dynamicDisplayAdSettings"`
+	FormatSetting             string                  `xml:"formatSetting"`
+	Status                    string                  `xml:"-"`
+	Labels                    []Label                 `xml:"-"`
+	BaseCampaignId            int64                   `xml:"-"`
+	BaseAdGroupId             int64                   `xml:"-"`
+	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo            *AdStrengthInfo         `xml:"-"`
 }
 
 type AdGroupExperimentData struct {
@@ -142,25 +177,32 @@ type AdGroupExperimentData struct {
 }
 
 type ImageAd struct {
-	AdGroupId           int64                   `xml:"-"`
-	Id                  int64                   `xml:"id,omitempty"`
-	Url                 string                  `xml:"url"`
-	DisplayUrl          string                  `xml:"displayUrl"`
-	FinalUrls           []string                `xml:"finalUrls,omitempty"`
-	FinalMobileUrls     []string                `xml:"finalMobileUrls,omitempty"`
-	FinalAppUrls        []AppUrl                `xml:"finalAppUrls,omitempty"`
-	TrackingUrlTemplate string                  `xml:"trackingUrlTemplate,omitempty"`
-	UrlCustomParameters *CustomParameters       `xml:"urlCustomParameters,omitempty"`
-	Type                string                  `xml:"type,omitempty"`
-	DevicePreference    int64                   `xml:"devicePreference,omitempty"`
-	Image               int64                   `xml:"imageId"`
-	Name                string                  `xml:"name"`
-	AdToCopyImageFrom   int64                   `xml:"adToCopyImageFrom"`
-	Status              string                  `xml:"-"`
-	Labels              []Label                 `xml:"-"`
-	PolicySummary       *AdGroupAdPolicySummary `xml:"-"`
+	AdGroupId                 int64                   `xml:"-"`
+	Id                        int64                   `xml:"id,omitempty"`
+	Url                       string                  `xml:"url"`
+	DisplayUrl                string                  `xml:"displayUrl"`
+	FinalUrls                 []string                `xml:"finalUrls,omitempty"`
+	FinalUrlSuffix            string                  `xml:"finalUrlSuffix"`
+	FinalMobileUrls           []string                `xml:"finalMobileUrls,omitempty"`
+	FinalAppUrls              []AppUrl                `xml:"finalAppUrls,omitempty"`
+	TrackingUrlTemplate       string                  `xml:"trackingUrlTemplate,omitempty"`
+	UrlCustomParameters       *CustomParameters       `xml:"urlCustomParameters,omitempty"`
+	DevicePreference          int64                   `xml:"devicePreference,omitempty"`
+	Automated                 bool                    `xml:"automated,omitempty"`
+	SystemManagedEntitySource string                  `xml:"systemManagedEntitySource,omitempty"`
+	Type                      string                  `xml:"type,omitempty"`
+	Image                     int64                   `xml:"imageId"`
+	Name                      string                  `xml:"name"`
+	AdToCopyImageFrom         int64                   `xml:"adToCopyImageFrom"`
+	Status                    string                  `xml:"-"`
+	Labels                    []Label                 `xml:"-"`
+	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo            *AdStrengthInfo         `xml:"-"`
+	BaseCampaignId            int64                   `xml:"-"`
+	BaseAdGroupId             int64                   `xml:"-"`
 }
 
+/*
 type MobileAd struct {
 	AdGroupId           int64                   `xml:"-"`
 	Id                  int64                   `xml:"id,omitempty"`
@@ -184,6 +226,7 @@ type MobileAd struct {
 	Labels              []Label                 `xml:"-"`
 	PolicySummary       *AdGroupAdPolicySummary `xml:"-"`
 }
+*/
 
 type TemplateElementField struct {
 	Name       string `xml:"name"`
@@ -198,77 +241,152 @@ type TemplateElement struct {
 }
 
 type TemplateAd struct {
-	AdGroupId           int64                   `xml:"-"`
-	Id                  int64                   `xml:"id,omitempty"`
-	Url                 string                  `xml:"url"`
-	DisplayUrl          string                  `xml:"displayUrl"`
-	FinalUrls           []string                `xml:"finalUrls,omitempty"`
-	FinalMobileUrls     []string                `xml:"finalMobileUrls,omitempty"`
-	FinalAppUrls        []AppUrl                `xml:"finalAppUrls,omitempty"`
-	TrackingUrlTemplate string                  `xml:"trackingUrlTemplate,omitempty"`
-	UrlCustomParameters *CustomParameters       `xml:"urlCustomParameters,omitempty"`
-	Type                string                  `xml:"type,omitempty"`
-	DevicePreference    int64                   `xml:"devicePreference,omitempty"`
-	TemplateId          int64                   `xml:"templateId"`
-	AdUnionId           int64                   `xml:"adUnionId>id"`
-	TemplateElements    []TemplateElement       `xml:"templateElements"`
-	Dimensions          []Dimensions            `xml:"dimensions"`
-	Name                string                  `xml:"name"`
-	Duration            int64                   `xml:"duration"`
-	originAdId          *int64                  `xml:"originAdId"`
-	Status              string                  `xml:"-"`
-	Labels              []Label                 `xml:"-"`
-	PolicySummary       *AdGroupAdPolicySummary `xml:"-"`
+	Id                        int64                   `xml:"id,omitempty"`
+	Url                       string                  `xml:"url"`
+	DisplayUrl                string                  `xml:"displayUrl"`
+	FinalUrls                 []string                `xml:"finalUrls,omitempty"`
+	FinalUrlSuffix            string                  `xml:"finalUrlSuffix"`
+	FinalMobileUrls           []string                `xml:"finalMobileUrls,omitempty"`
+	FinalAppUrls              []AppUrl                `xml:"finalAppUrls,omitempty"`
+	TrackingUrlTemplate       string                  `xml:"trackingUrlTemplate,omitempty"`
+	UrlCustomParameters       *CustomParameters       `xml:"urlCustomParameters,omitempty"`
+	Type                      string                  `xml:"type,omitempty"`
+	DevicePreference          int64                   `xml:"devicePreference,omitempty"`
+	Automated                 bool                    `xml:"automated,omitempty"`
+	SystemManagedEntitySource string                  `xml:"systemManagedEntitySource,omitempty"`
+	TemplateId                int64                   `xml:"templateId"`
+	AdUnionId                 int64                   `xml:"adUnionId>id"`
+	TemplateElements          []TemplateElement       `xml:"templateElements"`
+	Dimensions                []Dimensions            `xml:"dimensions"`
+	AdAsImage                 *Media                  `xml:"adAsImage"`
+	Name                      string                  `xml:"name"`
+	Duration                  int64                   `xml:"duration"`
+	OriginAdId                *int64                  `xml:"originAdId"`
+	AdGroupId                 int64                   `xml:"-"`
+	Status                    string                  `xml:"-"`
+	Labels                    []Label                 `xml:"-"`
+	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo            *AdStrengthInfo         `xml:"-"`
+	BaseCampaignId            int64                   `xml:"-"`
+	BaseAdGroupId             int64                   `xml:"-"`
 }
 
 type DynamicSearchAd struct {
-	AdGroupId           int64                   `xml:"-"`
-	Id                  int64                   `xml:"id,omitempty"`
-	Url                 string                  `xml:"url"`
-	DisplayUrl          string                  `xml:"displayUrl"`
-	FinalUrls           []string                `xml:"finalUrls,omitempty"`
-	FinalMobileUrls     []string                `xml:"finalMobileUrls,omitempty"`
-	FinalAppUrls        []AppUrl                `xml:"finalAppUrls,omitempty"`
-	TrackingUrlTemplate string                  `xml:"trackingUrlTemplate,omitempty"`
-	UrlCustomParameters *CustomParameters       `xml:"urlCustomParameters,omitempty"`
-	Type                string                  `xml:"type,omitempty"`
-	DevicePreference    int64                   `xml:"devicePreference,omitempty"`
-	Status              string                  `xml:"-"`
-	PolicySummary       *AdGroupAdPolicySummary `xml:"-"`
+	Id                        int64                   `xml:"id,omitempty"`
+	Url                       string                  `xml:"url"`
+	DisplayUrl                string                  `xml:"displayUrl"`
+	FinalUrls                 []string                `xml:"finalUrls,omitempty"`
+	FinalUrlSuffix            string                  `xml:"finalUrlSuffix"`
+	FinalMobileUrls           []string                `xml:"finalMobileUrls,omitempty"`
+	FinalAppUrls              []AppUrl                `xml:"finalAppUrls,omitempty"`
+	TrackingUrlTemplate       string                  `xml:"trackingUrlTemplate,omitempty"`
+	UrlCustomParameters       *CustomParameters       `xml:"urlCustomParameters,omitempty"`
+	Automated                 bool                    `xml:"automated,omitempty"`
+	Type                      string                  `xml:"type,omitempty"`
+	DevicePreference          int64                   `xml:"devicePreference,omitempty"`
+	SystemManagedEntitySource string                  `xml:"systemManagedEntitySource,omitempty"`
+	Description1              string                  `xml:"description1"`
+	Description2              string                  `xml:"description2"`
+	AdGroupId                 int64                   `xml:"-"`
+	Status                    string                  `xml:"-"`
+	Labels                    []Label                 `xml:"-"`
+	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo            *AdStrengthInfo         `xml:"-"`
+	BaseCampaignId            int64                   `xml:"-"`
+	BaseAdGroupId             int64                   `xml:"-"`
 }
 
 type ProductAd struct {
-	AdGroupId     int64                   `xml:"-"`
-	Id            int64                   `xml:"id,omitempty"`
-	Type          string                  `xml:"type,omitempty"`
-	Status        string                  `xml:"-"`
-	PolicySummary *AdGroupAdPolicySummary `xml:"-"`
+	AdGroupId                 int64                   `xml:"-"`
+	Id                        int64                   `xml:"id,omitempty"`
+	Type                      string                  `xml:"type,omitempty"`
+	FinalUrlSuffix            string                  `xml:"finalUrlSuffix,omitempty"`
+	UrlData                   []*UrlData              `xml:"urlData,omitempty"`
+	Automated                 bool                    `xml:"automated,omitempty"`
+	DevicePreference          int64                   `xml:"devicePreference,omitempty"`
+	SystemManagedEntitySource string                  `xml:"systemManagedEntitySource,omitempty"`
+	Status                    string                  `xml:"-"`
+	Labels                    []Label                 `xml:"-"`
+	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo            *AdStrengthInfo         `xml:"-"`
+	BaseCampaignId            int64                   `xml:"-"`
+	BaseAdGroupId             int64                   `xml:"-"`
 }
 
-// new types
-
 type MultiAssetResponsiveDisplayAd struct {
-	AdGroupId     int64                   `xml:"-"`
-	Id            int64                   `xml:"id,omitempty"`
-	Type          string                  `xml:"type,omitempty"`
-	Status        string                  `xml:"-"`
-	PolicySummary *AdGroupAdPolicySummary `xml:"-"`
+	AdGroupId                 int64                   `xml:"-"`
+	Id                        int64                   `xml:"id,omitempty"`
+	Type                      string                  `xml:"type,omitempty"`
+	FinalUrls                 []string                `xml:"finalUrls,omitempty"`
+	FinalMobileUrls           []string                `xml:"finalMobileUrls,omitempty"`
+	TrackingUrlTemplate       string                  `xml:"trackingUrlTemplate,omitempty"`
+	FinalUrlSuffix            string                  `xml:"finalUrlSuffix,omitempty"`
+	UrlCustomParameters       *CustomParameters       `xml:"urlCustomParameters,omitempty"`
+	UrlData                   []*UrlData              `xml:"urlData,omitempty"`
+	Automated                 bool                    `xml:"automated,omitempty"`
+	SystemManagedEntitySource string                  `xml:"systemManagedEntitySource,omitempty"`
+	Status                    string                  `xml:"-"`
+	Labels                    []Label                 `xml:"-"`
+	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo            *AdStrengthInfo         `xml:"-"`
+	BaseCampaignId            int64                   `xml:"-"`
+	BaseAdGroupId             int64                   `xml:"-"`
 }
 
 type ExpandedDynamicSearchAd struct {
-	AdGroupId     int64                   `xml:"-"`
-	Id            int64                   `xml:"id,omitempty"`
-	Type          string                  `xml:"type,omitempty"`
-	Status        string                  `xml:"-"`
-	PolicySummary *AdGroupAdPolicySummary `xml:"-"`
+	AdGroupId                 int64                   `xml:"-"`
+	Id                        int64                   `xml:"id,omitempty"`
+	Type                      string                  `xml:"type,omitempty"`
+	Url                       string                  `xml:"url"`
+	DisplayUrl                string                  `xml:"displayUrl"`
+	FinalUrls                 []string                `xml:"finalUrls,omitempty"`
+	FinalMobileUrls           []string                `xml:"finalMobileUrls,omitempty"`
+	FinalAppUrls              []AppUrl                `xml:"finalAppUrls,omitempty"`
+	TrackingUrlTemplate       string                  `xml:"trackingUrlTemplate,omitempty"`
+	FinalUrlSuffix            string                  `xml:"finalUrlSuffix,omitempty"`
+	UrlCustomParameters       *CustomParameters       `xml:"urlCustomParameters,omitempty"`
+	UrlData                   []*UrlData              `xml:"urlData,omitempty"`
+	Automated                 bool                    `xml:"automated,omitempty"`
+	DevicePreference          int64                   `xml:"devicePreference,omitempty"`
+	SystemManagedEntitySource string                  `xml:"systemManagedEntitySource,omitempty"`
+	Description1              string                  `xml:"description1"`
+	Description2              string                  `xml:"description2"`
+	Status                    string                  `xml:"-"`
+	Labels                    []Label                 `xml:"-"`
+	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo            *AdStrengthInfo         `xml:"-"`
+	BaseCampaignId            int64                   `xml:"-"`
+	BaseAdGroupId             int64                   `xml:"-"`
+}
+
+type UrlList struct {
+	urls []string `xml:"urls"`
+}
+
+type UrlData struct {
+	urlId               string  `xml:"urlId"`
+	finalUrls           UrlList `xml:"finalUrls,omitempty"`
+	finalMobileUrls     UrlList `xml:"finalMobileUrls,omitempty"`
+	trackingUrlTemplate string  `xml:"trackingUrlTemplate,omitempty"`
 }
 
 type GoalOptimizedShoppingAd struct {
-	AdGroupId     int64                   `xml:"-"`
-	Id            int64                   `xml:"id,omitempty"`
-	Type          string                  `xml:"type,omitempty"`
-	Status        string                  `xml:"-"`
-	PolicySummary *AdGroupAdPolicySummary `xml:"-"`
+	Id                        int64                   `xml:"id,omitempty"`
+	Type                      string                  `xml:"type,omitempty"`
+	TrackingUrlTemplate       string                  `xml:"trackingUrlTemplate,omitempty"`
+	FinalUrlSuffix            string                  `xml:"finalUrlSuffix,omitempty"`
+	UrlCustomParameters       *CustomParameters       `xml:"urlCustomParameters,omitempty"`
+	UrlData                   []*UrlData              `xml:"urlData,omitempty"`
+	Automated                 bool                    `xml:"automated,omitempty"`
+	DevicePreference          int64                   `xml:"devicePreference,omitempty"`
+	SystemManagedEntitySource string                  `xml:"systemManagedEntitySource,omitempty"`
+	AdGroupId                 int64                   `xml:"-"`
+	Status                    string                  `xml:"-"`
+	Labels                    []Label                 `xml:"-"`
+	PolicySummary             *AdGroupAdPolicySummary `xml:"-"`
+	AdStrengthInfo            *AdStrengthInfo         `xml:"-"`
+	BaseCampaignId            int64                   `xml:"-"`
+	BaseAdGroupId             int64                   `xml:"-"`
 }
 
 //

@@ -57,15 +57,13 @@ func (a1 AdGroupAds) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) error {
 	typeName := xml.Name{Space: "http://www.w3.org/2001/XMLSchema-instance", Local: "type"}
 	var adGroupId int64
-	var status, approvalStatus string
+	var status string
 	var policySummary *AdGroupAdPolicySummary
-	var disapprovalReasons []string
-	var trademarkDisapproved bool
 	var labels []Label
-	var experimentData *AdGroupExperimentData
-	var trademarks []string
-	var baseCampaignId *int64
-	var baseAdGroupId *int64
+	var baseCampaignId int64
+	var baseAdGroupId int64
+	var adStrengthInfo *AdStrengthInfo
+
 	var ad interface{}
 	for token, err := dec.Token(); err == nil; token, err = dec.Token() {
 		if err != nil {
@@ -153,11 +151,6 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 				default:
 					return fmt.Errorf("unknown AdGroupCriterion -> %#v", start)
 				}
-			case "experimentData":
-				err := dec.DecodeElement(&experimentData, &start)
-				if err != nil {
-					return err
-				}
 			case "status":
 				err := dec.DecodeElement(&status, &start)
 				if err != nil {
@@ -165,26 +158,6 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 				}
 			case "policySummary":
 				err := dec.DecodeElement(&policySummary, &start)
-				if err != nil {
-					return err
-				}
-			case "approvalStatus":
-				err := dec.DecodeElement(&approvalStatus, &start)
-				if err != nil {
-					return err
-				}
-			case "trademarks":
-				err := dec.DecodeElement(&trademarks, &start)
-				if err != nil {
-					return err
-				}
-			case "disapprovalReasons":
-				err := dec.DecodeElement(&disapprovalReasons, &start)
-				if err != nil {
-					return err
-				}
-			case "trademarkDisapproved":
-				err := dec.DecodeElement(&trademarkDisapproved, &start)
 				if err != nil {
 					return err
 				}
@@ -203,6 +176,11 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 				if err != nil {
 					return err
 				}
+			case "adStrengthInfo":
+				err := dec.DecodeElement(&adStrengthInfo, &start)
+				if err != nil {
+					return err
+				}
 			default:
 				return fmt.Errorf("unknown AdGroupAd field -> %#v", tag)
 			}
@@ -212,46 +190,82 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 	case TextAd:
 		a.Status = status
 		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	case ExpandedTextAd:
-		a.ExperimentData = experimentData
 		a.Status = status
 		a.PolicySummary = policySummary
 		a.Labels = labels
 		a.BaseCampaignId = baseCampaignId
 		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	case ImageAd:
 		a.Status = status
 		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	case TemplateAd:
 		a.Status = status
 		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	case DynamicSearchAd:
 		a.Status = status
 		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	case ResponsiveDisplayAd:
 		a.Status = status
 		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	case MultiAssetResponsiveDisplayAd:
 		a.Status = status
 		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	case ExpandedDynamicSearchAd:
 		a.Status = status
 		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	case ProductAd:
 		a.Status = status
 		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	case GoalOptimizedShoppingAd:
 		a.Status = status
 		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	}
 
