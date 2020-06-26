@@ -147,6 +147,7 @@ type Campaign struct {
 	ForwardCompatibilityMap        map[string]string               `xml:"forwardCompatibilityMap,omitempty"`
 	TrackingUrlTemplate            string                          `xml:"trackingUrlTemplate,omitempty"`
 	UrlCustomParameters            *CustomParameters               `xml:"urlCustomParameters,omitempty"`
+	FinalUrlSuffix                 string                          `xml:"finalUrlSuffix,omitempty"`
 	Errors                         []error                         `xml:"-"`
 }
 
