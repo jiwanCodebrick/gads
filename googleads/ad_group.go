@@ -36,6 +36,7 @@ type AdGroup struct {
 	BiddingStrategyConfiguration []BiddingStrategyConfiguration `xml:"biddingStrategyConfiguration"`
 	ContentBidCriterionTypeGroup *string                        `xml:"contentBidCriterionTypeGroup"`
 	UrlCustomParameters          *CustomParameters              `xml:"urlCustomParameters"`
+	TrackingUrlTemplate          string                         `xml:"trackingUrlTemplate"`
 	Type                         string                         `xml:"adGroupType"`
 	RotationMode                 string                         `xml:"adGroupAdRotationMode>adRotationMode"`
 }

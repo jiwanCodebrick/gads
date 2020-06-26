@@ -1,6 +1,8 @@
 package v201809
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+)
 
 // A campaignService holds the connection information for the
 // campaign service.
@@ -128,7 +130,7 @@ type Campaign struct {
 	Name                           string                          `xml:"name,omitempty"`
 	BudgetAmount                   int64                           `xml:"-"`
 	Status                         string                          `xml:"status,omitempty"`        // Status: "ENABLED", "PAUSED", "REMOVED"
-	ServingStatus                  *string                         `xml:"servingStatus,omitempty"` // ServingStatus: "SERVING", "NONE", "ENDED", "PENDING", "SUSPENDED"
+	ServingStatus                  string                          `xml:"servingStatus,omitempty"` // ServingStatus: "SERVING", "NONE", "ENDED", "PENDING", "SUSPENDED"
 	StartDate                      string                          `xml:"startDate,omitempty"`
 	EndDate                        string                          `xml:"endDate,omitempty"`
 	BudgetId                       int64                           `xml:"budget>budgetId,omitempty"`
@@ -142,8 +144,8 @@ type Campaign struct {
 	NetworkSetting                 *NetworkSetting                 `xml:"networkSetting,omitempty"`
 	Labels                         []Label                         `xml:"labels,omitempty"`
 	BiddingStrategyConfiguration   *BiddingStrategyConfiguration   `xml:"biddingStrategyConfiguration"`
-	ForwardCompatibilityMap        *map[string]string              `xml:"forwardCompatibilityMap,omitempty"`
-	TrackingUrlTemplate            *string                         `xml:"trackingUrlTemplate,omitempty"`
+	ForwardCompatibilityMap        map[string]string               `xml:"forwardCompatibilityMap,omitempty"`
+	TrackingUrlTemplate            string                          `xml:"trackingUrlTemplate,omitempty"`
 	UrlCustomParameters            *CustomParameters               `xml:"urlCustomParameters,omitempty"`
 	Errors                         []error                         `xml:"-"`
 }
