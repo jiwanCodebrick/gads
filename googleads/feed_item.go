@@ -70,6 +70,18 @@ type FeedItemPolicyData struct {
 	QualityDisapprovalReasons FeedItemQualityDisapprovalReasons `xml:"https://adwords.google.com/api/adwords/cm/v201809 qualityDisapprovalReasons,omitempty"`
 }
 
+type FeedItemPolicySummary struct {
+	ReviewState            string `xml:"reviewState"`
+	DenormalizedStatus     string `xml:"denormalizedStatus"`
+	CombinedApprovalStatus string `xml:"combinedApprovalStatus"`
+
+	FeedMappingId             int64                    `xml:"feedMappingId,omitempty"`
+	ValidationStatus          string                   `xml:"validationStatus,omitempty"`
+	ValidationErrors          []FeedItemAttributeError `xml:"validationErrors,omitempty"`
+	QualityApprovalStatus     string                   `xml:"qualityApprovalStatus,omitempty"`
+	QualityDisapprovalReasons []string                 `xml:"qualityDisapprovalReasons,omitempty"`
+}
+
 // https://developers.google.com/adwords/api/docs/reference/v201809/AdGroupExtensionSettingService.FeedItemValidationStatus
 // Validation status of a FeedItem
 // UNCHECKED, ERROR, VALID
@@ -83,9 +95,9 @@ type FeedItemApprovalStatus string
 // https://developers.google.com/adwords/api/docs/reference/v201809/AdGroupExtensionSettingService.FeedItemAttributeError
 // Contains validation error details for a set of feed attributes
 type FeedItemAttributeError struct {
-	FeedAttributeIds    []int64 `xml:"https://adwords.google.com/api/adwords/cm/v201809 feedAttributeIds,omitempty"`
-	ValidationErrorCode int     `xml:"https://adwords.google.com/api/adwords/cm/v201809 validationErrorCode,omitempty"`
-	ErrorInformation    string  `xml:"https://adwords.google.com/api/adwords/cm/v201809 errorInformation,omitempty"`
+	FeedAttributeIds    []int64 `xml:"feedAttributeIds,omitempty"`
+	ValidationErrorCode int     `xml:"validationErrorCode,omitempty"`
+	ErrorInformation    string  `xml:"errorInformation,omitempty"`
 }
 
 // https://developers.google.com/adwords/api/docs/reference/v201809/AdGroupExtensionSettingService.FeedItemQualityApprovalStatus
@@ -100,5 +112,5 @@ type FeedItemQualityDisapprovalReasons string
 // https://developers.google.com/adwords/api/docs/reference/v201809/AdGroupExtensionSettingService.CallConversionType
 // Conversion type for a call extension.
 type CallConversionType struct {
-	ConversionTypeId int64 `xml:"https://adwords.google.com/api/adwords/cm/v201809 conversionTypeId,omitempty"`
+	ConversionTypeId int64 `xml:"conversionTypeId,omitempty"`
 }
