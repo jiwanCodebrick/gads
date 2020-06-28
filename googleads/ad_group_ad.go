@@ -438,7 +438,7 @@ type ExpandedDynamicSearchAd struct {
 }
 
 type UrlList struct {
-	urls []string `xml:"urls"`
+	Urls []string `xml:"urls"`
 }
 
 type UrlData struct {

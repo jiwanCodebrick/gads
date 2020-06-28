@@ -27,7 +27,7 @@ type ExtensionFeedItem struct {
 
 	FeedId                  int64                      `xml:"https://adwords.google.com/api/adwords/cm/v201809 feedId,omitempty"`
 	FeedItemId              int64                      `xml:"https://adwords.google.com/api/adwords/cm/v201809 feedItemId,omitempty"`
-	Status                  *FeedItemStatus            `xml:"https://adwords.google.com/api/adwords/cm/v201809 status,omitempty"`
+	Status                  string                     `xml:"https://adwords.google.com/api/adwords/cm/v201809 status,omitempty"`
 	FeedType                *FeedType                  `xml:"https://adwords.google.com/api/adwords/cm/v201809 feedType,omitempty"`
 	StartTime               string                     `xml:"https://adwords.google.com/api/adwords/cm/v201809 startTime,omitempty"` //  special value "00000101 000000" may be used to clear an existing start time.
 	EndTime                 string                     `xml:"https://adwords.google.com/api/adwords/cm/v201809 endTime,omitempty"`   //  special value "00000101 000000" may be used to clear an existing end time.
@@ -55,6 +55,20 @@ type CallFeedItem struct {
 	DisableCallConversionTracking bool               `xml:"https://adwords.google.com/api/adwords/cm/v201809 disableCallConversionTracking,omitempty"`
 }
 
+type SitelinkFeedItem struct {
+	ExtensionFeedItem
+
+	SitelinkText                string           `xml:"https://adwords.google.com/api/adwords/cm/v201809 sitelinkText,omitempty"`
+	SitelinkUrl                 string           `xml:"https://adwords.google.com/api/adwords/cm/v201809 sitelinkUrl,omitempty"`
+	SitelinkLine2               string           `xml:"https://adwords.google.com/api/adwords/cm/v201809 sitelinkLine2,omitempty"`
+	SitelinkLine3               string           `xml:"https://adwords.google.com/api/adwords/cm/v201809 sitelinkLine3,omitempty"`
+	SitelinkFinalUrls           UrlList          `xml:"https://adwords.google.com/api/adwords/cm/v201809 sitelinkFinalUrls,omitempty"`
+	SitelinkFinalMobileUrls     UrlList          `xml:"https://adwords.google.com/api/adwords/cm/v201809 sitelinkFinalMobileUrls,omitempty"`
+	SitelinkTrackingUrlTemplate string           `xml:"https://adwords.google.com/api/adwords/cm/v201809 sitelinkTrackingUrlTemplate,omitempty"`
+	SitelinkFinalUrlSuffix      string           `xml:"https://adwords.google.com/api/adwords/cm/v201809 sitelinkFinalUrlSuffix,omitempty"`
+	SitelinkUrlCustomParameters CustomParameters `xml:"https://adwords.google.com/api/adwords/cm/v201809 sitelinkUrlCustomParameters,omitempty"`
+}
+
 func extensionsUnmarshalXML(dec *xml.Decoder, start xml.StartElement) (ext interface{}, err error) {
 	extensionsType, err := findAttr(start.Attr, xml.Name{Space: "http://www.w3.org/2001/XMLSchema-instance", Local: "type"})
 	if err != nil {
@@ -63,6 +77,10 @@ func extensionsUnmarshalXML(dec *xml.Decoder, start xml.StartElement) (ext inter
 	switch extensionsType {
 	case "CallFeedItem":
 		c := CallFeedItem{}
+		err = dec.DecodeElement(&c, &start)
+		ext = c
+	case "SitelinkFeedItem":
+		c := SitelinkFeedItem{}
 		err = dec.DecodeElement(&c, &start)
 		ext = c
 	default:
@@ -84,6 +102,13 @@ func (s ExtensionSetting) MarshalXML(e *xml.Encoder, start xml.StartElement) err
 			xml.Name{baseUrl, "extensions"},
 			[]xml.Attr{
 				xml.Attr{xml.Name{"http://www.w3.org/2001/XMLSchema-instance", "type"}, "CallFeedItem"},
+			},
+		})
+	case []SitelinkFeedItem:
+		e.EncodeElement(s.Extensions.([]CallFeedItem), xml.StartElement{
+			xml.Name{baseUrl, "extensions"},
+			[]xml.Attr{
+				xml.Attr{xml.Name{"http://www.w3.org/2001/XMLSchema-instance", "type"}, "SitelinkFeedItem"},
 			},
 		})
 	default:
