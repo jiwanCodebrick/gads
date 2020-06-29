@@ -23,6 +23,7 @@ const (
 	baseReportDownloadUrl = "https://adwords.google.com/api/adwords/reportdownload/" + version
 	rootTrafficUrl        = "https://adwords.google.com/api/adwords/o/"
 	baseTrafficUrl        = "https://adwords.google.com/api/adwords/o/" + version
+	baseSyncUrl           = "https://adwords.google.com/api/adwords/ch/" + version
 )
 
 type ServiceUrl struct {
@@ -60,7 +61,7 @@ var (
 	conversionTrackerServiceUrl       = ServiceUrl{baseUrl, "ConversionTrackerService"}
 	customerFeedServiceUrl            = ServiceUrl{baseUrl, "CustomerFeedService"}
 	customerServiceUrl                = ServiceUrl{baseMcmUrl, "CustomerService"}
-	customerSyncServiceUrl            = ServiceUrl{baseUrl, "CustomerSyncService"}
+	customerSyncServiceUrl            = ServiceUrl{baseSyncUrl, "CustomerSyncService"}
 	dataServiceUrl                    = ServiceUrl{baseUrl, "DataService"}
 	experimentServiceUrl              = ServiceUrl{baseUrl, "ExperimentService"}
 	feedItemServiceUrl                = ServiceUrl{baseUrl, "FeedItemService"}
