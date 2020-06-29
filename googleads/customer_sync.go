@@ -23,13 +23,13 @@ type AdGroupChangeData struct {
 }
 
 type CampaignChangeData struct {
-	CampaignID              int64             `xml:"campaignId"`
-	CampaignChangeStatus    string            `xml:"campaignChangeStatus"`
-	ChangedAdGroups         AdGroupChangeData `xml:"changedAdGroups"`
-	AddedCampaignCriteria   []int64           `xml:"addedCampaignCriteria"`
-	RemovedCampaignCriteria []int64           `xml:"removedCampaignCriteria"`
-	ChangedFeeds            []int64           `xml:"changedFeeds"`
-	RemovedFeeds            []int64           `xml:"removedFeeds"`
+	CampaignID              int64                `xml:"campaignId"`
+	CampaignChangeStatus    string               `xml:"campaignChangeStatus"`
+	ChangedAdGroups         *[]AdGroupChangeData `xml:"changedAdGroups,omitempty"`
+	AddedCampaignCriteria   []int64              `xml:"addedCampaignCriteria"`
+	RemovedCampaignCriteria []int64              `xml:"removedCampaignCriteria"`
+	ChangedFeeds            []int64              `xml:"changedFeeds"`
+	RemovedFeeds            []int64              `xml:"removedFeeds"`
 }
 
 type FeedChangeData struct {
