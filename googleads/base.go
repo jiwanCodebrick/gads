@@ -2,12 +2,15 @@ package v201809
 
 import (
 	"bytes"
+	sha256 "crypto/sha256"
+	"encoding/hex"
 	"encoding/xml"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 	"testing"
 )
 
@@ -81,6 +84,56 @@ var (
 	targetingIdeaServiceUrl           = ServiceUrl{baseTrafficUrl, "TargetingIdeaService"}
 	trafficEstimatorServiceUrl        = ServiceUrl{baseTrafficUrl, "TrafficEstimatorService"}
 )
+
+// cache
+
+type callCache struct {
+	Items map[string][]byte
+}
+
+func (c *callCache) Set(k []string, v []byte) {
+	hashBuffer := sha256.Sum256([]byte(strings.Join(k, "-")))
+	key := hex.EncodeToString(hashBuffer[:])
+	c.Items[key] = v
+}
+
+func (c *callCache) Get(k []string) ([]byte, bool) {
+	hashBuffer := sha256.Sum256([]byte(strings.Join(k, "-")))
+	key := hex.EncodeToString(hashBuffer[:])
+	if v, ok := c.Items[key]; ok {
+		return v, ok
+	} else {
+		d, err := ioutil.ReadFile(cache_DIR + key)
+		if err != nil {
+			return []byte{}, false
+		}
+		return d, true
+	}
+}
+
+var (
+	cache_DIR     = ""
+	cache_ENABLED = false
+	cache         *callCache
+)
+
+func InitCache(dir string) {
+	cache_ENABLED = true
+	cache_DIR = dir
+	cache = &callCache{
+		Items: map[string][]byte{},
+	}
+}
+
+func SaveCache() error {
+	for k, v := range cache.Items {
+		err := ioutil.WriteFile(cache_DIR+k, []byte(v), 0777)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
 
 func (s ServiceUrl) String() string {
 	if s.Name != "" {
@@ -249,29 +302,61 @@ func (a *Auth) doRequest(serviceUrl ServiceUrl, action string, body interface{})
 		return []byte{}, err
 	}
 
-	req, err := http.NewRequest("POST", serviceUrl.String(), bytes.NewReader(reqBody))
-	req.Header.Add("Accept", "text/xml")
-	req.Header.Add("Accept", "multipart/*")
-	req.Header.Add("Content-Type", "text/xml;charset=UTF-8")
-	contentLength := fmt.Sprintf("%d", len(reqBody))
-	req.Header.Add("Content-length", contentLength)
-	req.Header.Add("SOAPAction", action)
-	//if a.Testing != nil {
-	//	a.Testing.Logf("request ->\n%s\n%#v\n%s\n", req.URL.String(), req.Header, string(reqBody))
-	//}
-
-	// Added some logging/"poor man's" debugging to inspect outbound SOAP requests
-	if level := os.Getenv("DEBUG"); level != "" {
-		fmt.Printf("request ->\n%s\n%#v\n%s\n", req.URL.String(), req.Header, string(reqBody))
+	// load cache
+	cacheResp, ok := []byte{}, false
+	if cache_ENABLED {
+		cacheResp, ok = cache.Get([]string{
+			serviceUrl.String(),
+			action,
+			string(reqBody),
+		})
 	}
 
-	resp, err := a.Client.Do(req)
-	if err != nil {
-		return []byte{}, err
-	}
-	defer resp.Body.Close()
+	respStatusCode := 0
 
-	respBody, err = ioutil.ReadAll(resp.Body)
+	if ok && cache_ENABLED {
+		respBody = cacheResp
+		respStatusCode = 200
+	} else {
+		req, err := http.NewRequest("POST", serviceUrl.String(), bytes.NewReader(reqBody))
+		req.Header.Add("Accept", "text/xml")
+		req.Header.Add("Accept", "multipart/*")
+		req.Header.Add("Content-Type", "text/xml;charset=UTF-8")
+		contentLength := fmt.Sprintf("%d", len(reqBody))
+		req.Header.Add("Content-length", contentLength)
+		req.Header.Add("SOAPAction", action)
+		//if a.Testing != nil {
+		//	a.Testing.Logf("request ->\n%s\n%#v\n%s\n", req.URL.String(), req.Header, string(reqBody))
+		//}
+
+		// Added some logging/"poor man's" debugging to inspect outbound SOAP requests
+		if level := os.Getenv("DEBUG"); level != "" {
+			fmt.Printf("request ->\n%s\n%#v\n%s\n", req.URL.String(), req.Header, string(reqBody))
+		}
+
+		resp, err := a.Client.Do(req)
+		if err != nil {
+			return []byte{}, err
+		}
+		defer resp.Body.Close()
+
+		respBody, err = ioutil.ReadAll(resp.Body)
+		if err != nil {
+			return []byte{}, err
+		}
+		respStatusCode = resp.StatusCode
+	}
+
+	// save cache
+	if !ok && cache_ENABLED {
+		cache.Set(
+			[]string{
+				serviceUrl.String(),
+				action,
+				string(reqBody),
+			}, respBody,
+		)
+	}
 
 	// Added some logging/"poor man's" debugging to inspect outbound SOAP requests
 	if level := os.Getenv("DEBUG"); level != "" {
@@ -279,7 +364,7 @@ func (a *Auth) doRequest(serviceUrl ServiceUrl, action string, body interface{})
 	}
 
 	if a.Testing != nil {
-		a.Testing.Logf("respBody ->\n%s\n%s\n", string(respBody), resp.Status)
+		a.Testing.Logf("respBody ->\n%s\n%s\n", string(respBody), fmt.Sprintf("%d", respStatusCode))
 	}
 
 	type soapRespHeader struct {
@@ -304,7 +389,7 @@ func (a *Auth) doRequest(serviceUrl ServiceUrl, action string, body interface{})
 	if err != nil {
 		return respBody, err
 	}
-	if resp.StatusCode == 400 || resp.StatusCode == 401 || resp.StatusCode == 403 || resp.StatusCode == 405 || resp.StatusCode == 500 {
+	if respStatusCode == 400 || respStatusCode == 401 || respStatusCode == 403 || respStatusCode == 405 || respStatusCode == 500 {
 		fault := Fault{}
 		err = xml.Unmarshal(soapResp.Body.Response, &fault)
 		if err != nil {
