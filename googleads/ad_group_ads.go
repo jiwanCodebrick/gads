@@ -118,18 +118,21 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 					if err != nil {
 						return err
 					}
+					ad = a
 				case "ExpandedDynamicSearchAd":
 					a := ExpandedDynamicSearchAd{AdGroupId: adGroupId}
 					err := dec.DecodeElement(&a, &start)
 					if err != nil {
 						return err
 					}
+					ad = a
 				case "ResponsiveDisplayAd":
 					a := ResponsiveDisplayAd{AdGroupId: adGroupId}
 					err := dec.DecodeElement(&a, &start)
 					if err != nil {
 						return err
 					}
+					ad = a
 				case "MultiAssetResponsiveDisplayAd":
 					a := MultiAssetResponsiveDisplayAd{AdGroupId: adGroupId}
 					err := dec.DecodeElement(&a, &start)
@@ -142,24 +145,70 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 					if err != nil {
 						return err
 					}
+					ad = a
 				case "GoalOptimizedShoppingAd":
 					a := GoalOptimizedShoppingAd{AdGroupId: adGroupId}
 					err := dec.DecodeElement(&a, &start)
 					if err != nil {
 						return err
 					}
+					ad = a
 				case "CallOnlyAd":
 					a := CallOnlyAd{AdGroupId: adGroupId}
 					err := dec.DecodeElement(&a, &start)
 					if err != nil {
 						return err
 					}
+					ad = a
 				case "ResponsiveSearchAd":
 					a := ResponsiveSearchAd{AdGroupId: adGroupId}
 					err := dec.DecodeElement(&a, &start)
 					if err != nil {
 						return err
 					}
+					ad = a
+				case "UniversalAppAd":
+					a := UniversalAppAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
+					ad = a
+				case "ShowcaseAd":
+					a := ShowcaseAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
+					ad = a
+				case "RichMediaAd":
+					a := RichMediaAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
+					ad = a
+				case "ThirdPartyRedirectAd":
+					a := ThirdPartyRedirectAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
+					ad = a
+				case "GmailAd":
+					a := GmailAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
+					ad = a
+				case "DeprecatedAd":
+					a := DeprecatedAd{AdGroupId: adGroupId}
+					err := dec.DecodeElement(&a, &start)
+					if err != nil {
+						return err
+					}
+					ad = a
 				default:
 					return fmt.Errorf("unknown AdGroupCriterion -> %#v", start)
 				}
@@ -288,6 +337,54 @@ func (aga *AdGroupAds) UnmarshalXML(dec *xml.Decoder, start xml.StartElement) er
 		a.AdStrengthInfo = adStrengthInfo
 		*aga = append(*aga, a)
 	case ResponsiveSearchAd:
+		a.Status = status
+		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
+		*aga = append(*aga, a)
+	case UniversalAppAd:
+		a.Status = status
+		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
+		*aga = append(*aga, a)
+	case ShowcaseAd:
+		a.Status = status
+		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
+		*aga = append(*aga, a)
+	case RichMediaAd:
+		a.Status = status
+		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
+		*aga = append(*aga, a)
+	case ThirdPartyRedirectAd:
+		a.Status = status
+		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
+		*aga = append(*aga, a)
+	case GmailAd:
+		a.Status = status
+		a.PolicySummary = policySummary
+		a.Labels = labels
+		a.BaseCampaignId = baseCampaignId
+		a.BaseAdGroupId = baseAdGroupId
+		a.AdStrengthInfo = adStrengthInfo
+		*aga = append(*aga, a)
+	case DeprecatedAd:
 		a.Status = status
 		a.PolicySummary = policySummary
 		a.Labels = labels
