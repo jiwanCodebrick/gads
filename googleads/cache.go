@@ -8,6 +8,7 @@ import (
 )
 
 // cache
+// todo: make this concurrent
 
 type callCache struct {
 	Items map[string][]byte
@@ -16,6 +17,7 @@ type callCache struct {
 var (
 	cache_DIR     = ""
 	cache_ENABLED = false
+	cache_MEM     = false
 	cache         *callCache
 )
 
@@ -28,7 +30,9 @@ func (c *callCache) Set(k []string, v []byte) {
 func (c *callCache) Get(k []string) ([]byte, bool) {
 	hashBuffer := sha256.Sum256([]byte(strings.Join(k, "-")))
 	key := hex.EncodeToString(hashBuffer[:])
+	cache_MEM = false
 	if v, ok := c.Items[key]; ok {
+		cache_MEM = true
 		return v, ok
 	} else {
 		d, err := ioutil.ReadFile(cache_DIR + key)

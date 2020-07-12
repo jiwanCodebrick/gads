@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"testing"
+	"time"
 )
 
 const (
@@ -201,6 +202,8 @@ func (a *Auth) request(serviceUrl ServiceUrl, action string, body interface{}) (
 
 func (a *Auth) doRequest(serviceUrl ServiceUrl, action string, body interface{}) (respBody []byte, err error) {
 
+	startTime := time.Now()
+
 	type devToken struct {
 		XMLName xml.Name
 	}
@@ -304,6 +307,8 @@ func (a *Auth) doRequest(serviceUrl ServiceUrl, action string, body interface{})
 			}, respBody,
 		)
 	}
+
+	defer stat.count(serviceUrl.Name, ok, cache_MEM, time.Since(startTime))
 
 	// Added some logging/"poor man's" debugging to inspect outbound SOAP requests
 	if level := os.Getenv("DEBUG"); level != "" {
