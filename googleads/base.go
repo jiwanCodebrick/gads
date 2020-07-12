@@ -2,15 +2,12 @@ package v201809
 
 import (
 	"bytes"
-	sha256 "crypto/sha256"
-	"encoding/hex"
 	"encoding/xml"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
-	"strings"
 	"testing"
 )
 
@@ -84,56 +81,6 @@ var (
 	targetingIdeaServiceUrl           = ServiceUrl{baseTrafficUrl, "TargetingIdeaService"}
 	trafficEstimatorServiceUrl        = ServiceUrl{baseTrafficUrl, "TrafficEstimatorService"}
 )
-
-// cache
-
-type callCache struct {
-	Items map[string][]byte
-}
-
-func (c *callCache) Set(k []string, v []byte) {
-	hashBuffer := sha256.Sum256([]byte(strings.Join(k, "-")))
-	key := hex.EncodeToString(hashBuffer[:])
-	c.Items[key] = v
-}
-
-func (c *callCache) Get(k []string) ([]byte, bool) {
-	hashBuffer := sha256.Sum256([]byte(strings.Join(k, "-")))
-	key := hex.EncodeToString(hashBuffer[:])
-	if v, ok := c.Items[key]; ok {
-		return v, ok
-	} else {
-		d, err := ioutil.ReadFile(cache_DIR + key)
-		if err != nil {
-			return []byte{}, false
-		}
-		return d, true
-	}
-}
-
-var (
-	cache_DIR     = ""
-	cache_ENABLED = false
-	cache         *callCache
-)
-
-func InitCache(dir string) {
-	cache_ENABLED = true
-	cache_DIR = dir
-	cache = &callCache{
-		Items: map[string][]byte{},
-	}
-}
-
-func SaveCache() error {
-	for k, v := range cache.Items {
-		err := ioutil.WriteFile(cache_DIR+k, []byte(v), 0777)
-		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
 
 func (s ServiceUrl) String() string {
 	if s.Name != "" {
