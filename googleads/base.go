@@ -272,7 +272,7 @@ func (a *Auth) doRequest(serviceUrl ServiceUrl, action string, body interface{})
 	} else {
 		req, err := http.NewRequest("POST", serviceUrl.String(), bytes.NewReader(reqBody))
 		req.Header.Add("Accept", "text/xml")
-		req.Header.Add("User-Agent", "Adsensor (gzip)")
+		req.Header.Add("User-Agent", "gads (gzip)")
 		req.Header.Add("Accept-Encoding", "gzip")
 		req.Header.Add("Accept", "multipart/*")
 		req.Header.Add("Content-Type", "text/xml;charset=UTF-8")
