@@ -2,9 +2,11 @@ package v201809
 
 import (
 	"bytes"
+	"compress/gzip"
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -270,6 +272,8 @@ func (a *Auth) doRequest(serviceUrl ServiceUrl, action string, body interface{})
 	} else {
 		req, err := http.NewRequest("POST", serviceUrl.String(), bytes.NewReader(reqBody))
 		req.Header.Add("Accept", "text/xml")
+		req.Header.Add("User-Agent", "Adsensor (gzip)")
+		req.Header.Add("Accept-Encoding", "gzip")
 		req.Header.Add("Accept", "multipart/*")
 		req.Header.Add("Content-Type", "text/xml;charset=UTF-8")
 		contentLength := fmt.Sprintf("%d", len(reqBody))
@@ -290,7 +294,16 @@ func (a *Auth) doRequest(serviceUrl ServiceUrl, action string, body interface{})
 		}
 		defer resp.Body.Close()
 
-		respBody, err = ioutil.ReadAll(resp.Body)
+		var reader io.ReadCloser
+		switch resp.Header.Get("Content-Encoding") {
+		case "gzip":
+			reader, err = gzip.NewReader(resp.Body)
+			defer reader.Close()
+		default:
+			reader = resp.Body
+		}
+
+		respBody, err = ioutil.ReadAll(reader)
 		if err != nil {
 			return []byte{}, err
 		}
