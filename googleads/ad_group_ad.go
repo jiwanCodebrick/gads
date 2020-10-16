@@ -93,6 +93,19 @@ type AssetPolicySummaryInfo struct {
 	PolicySummaryInfo      string             `xml:"PolicySummaryInfo"`
 }
 
+type Asset struct {
+	AssetId      int64  `xml:"assetId"`
+	AssetName    string `xml:"assetName"`
+	AssetSubtype string `xml:"assetSubtype"`
+	assetStatus  string `xml:"assetStatus"`
+	Type         string `xml:"type"`
+}
+
+type TextAsset struct {
+	Asset
+	AssetText string `xml:"assetText"`
+}
+
 type AssetLink struct {
 	Asset                  interface{}            `xml:"asset"` //todo
 	PinnedField            string                 `xml:"pinnedField"`
