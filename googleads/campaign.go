@@ -125,15 +125,20 @@ type CustomParameters struct {
 	DoReplace        bool              `xml:"doReplace"`
 }
 
+type Money struct {
+	Value int64 `xml:"microAmount"`
+}
+
 type Campaign struct {
 	Id                             int64                           `xml:"id,omitempty"`
 	Name                           string                          `xml:"name,omitempty"`
-	BudgetAmount                   int64                           `xml:"-"`
+	BudgetAmount                   Money                           `xml:"budget>amount,omitempty"`
 	Status                         string                          `xml:"status,omitempty"`        // Status: "ENABLED", "PAUSED", "REMOVED"
 	ServingStatus                  string                          `xml:"servingStatus,omitempty"` // ServingStatus: "SERVING", "NONE", "ENDED", "PENDING", "SUSPENDED"
 	StartDate                      string                          `xml:"startDate,omitempty"`
 	EndDate                        string                          `xml:"endDate,omitempty"`
 	BudgetId                       int64                           `xml:"budget>budgetId,omitempty"`
+	BudgetStatus                   string                          `xml:"budget>status,omitempty"`
 	BudgetDeliveryMethod           string                          `xml:"-"`
 	ConversionOptimizerEligibility *conversionOptimizerEligibility `xml:"conversionOptimizerEligibility,omitempty"`
 	AdServingOptimizationStatus    string                          `xml:"adServingOptimizationStatus,omitempty"`
