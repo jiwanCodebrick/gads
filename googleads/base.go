@@ -202,6 +202,14 @@ func (a *Auth) request(serviceUrl ServiceUrl, action string, body interface{}) (
 	return a.doRequest(serviceUrl, action, body)
 }
 
+var (
+	tokenForCache string
+)
+
+func SetCacheToken(t string) {
+	tokenForCache = t
+}
+
 func (a *Auth) doRequest(serviceUrl ServiceUrl, action string, body interface{}) (respBody []byte, err error) {
 
 	startTime := time.Now()
@@ -259,6 +267,7 @@ func (a *Auth) doRequest(serviceUrl ServiceUrl, action string, body interface{})
 	if cache_ENABLED {
 		cacheResp, ok = cache.Get([]string{
 			serviceUrl.String(),
+			tokenForCache,
 			action,
 			string(reqBody),
 		})
