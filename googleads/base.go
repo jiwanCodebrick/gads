@@ -211,6 +211,20 @@ func SetCacheToken(t string) {
 }
 
 func (a *Auth) doRequest(serviceUrl ServiceUrl, action string, body interface{}) (respBody []byte, err error) {
+	timeout := time.Second * 5
+	retries := 4
+retry:
+	result, err := a.doRequestFunc(serviceUrl, action, body)
+	if err != nil && retries > 0 {
+		retries--
+		time.Sleep(timeout)
+		timeout += 5 * time.Second
+		goto retry
+	}
+	return result, err
+}
+
+func (a *Auth) doRequestFunc(serviceUrl ServiceUrl, action string, body interface{}) (respBody []byte, err error) {
 
 	startTime := time.Now()
 
