@@ -218,7 +218,7 @@ retry:
 	if err != nil && retries > 0 {
 		retries--
 		time.Sleep(timeout)
-		timeout += 5 * time.Second
+		//timeout += 5 * time.Second
 		goto retry
 	}
 	return result, err
